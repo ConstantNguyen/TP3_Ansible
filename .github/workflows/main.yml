@@ -13,16 +13,15 @@ jobs:
       - name: Install Ansible
         run: pip install ansible
 
-      - name: Write SSH key and vault password
+            - name: Write SSH key and vault password
         run: |
           printf '%s\n' "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' > key
           chmod 600 key
           printf '%s' "${{ secrets.ANSIBLE_VAULT_PASSWORD }}" > vault_pass
           chmod 600 vault_pass
 
-      - name: Deploiement Ansible
+      - name: Deploy with Ansible
         working-directory: ansible
         env:
           ANSIBLE_HOST_KEY_CHECKING: "False"
-          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
-        run: ansible-playbook -i inventories/setup.yml playbook.yml -e ansible_ssh_private_key_file=$HOME/deploy_key -e dockerhub_token=$DOCKERHUB_TOKEN
+        run: ansible-playbook -i inventories/setup.yml playbook.yml -e ansible_ssh_private_key_file=../key --vault-password-file ../vault_pass
