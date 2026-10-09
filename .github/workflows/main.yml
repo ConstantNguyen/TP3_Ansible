@@ -13,15 +13,16 @@ jobs:
       - name: Install Ansible
         run: pip install ansible
 
-      - name: Write SSH key
+      - name: SSH key
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
           echo "$SSH_PRIVATE_KEY" > $HOME/deploy_key
           chmod 600 $HOME/deploy_key
 
-      - name: Deploy with Ansible
+      - name: Deploiement Ansible
         working-directory: ansible
         env:
           ANSIBLE_HOST_KEY_CHECKING: "False"
-        run: ansible-playbook -i inventories/setup.yml playbook.yml -e ansible_ssh_private_key_file=$HOME/deploy_key
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+        run: ansible-playbook -i inventories/setup.yml playbook.yml -e ansible_ssh_private_key_file=$HOME/deploy_key -e dockerhub_token=$DOCKERHUB_TOKEN
