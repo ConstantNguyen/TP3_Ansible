@@ -1,10 +1,8 @@
-- name: Launch proxy
+- name: Launch front
   community.docker.docker_container:
-    name: tp-http-server
-    image: constant4n/tp-devops-httpd
+    name: tp-www
+    image: constant4n/tp-devops-front
     pull: always
-    ports:
-      - "80:80"
     networks:
       - name: app-network
   vars:
