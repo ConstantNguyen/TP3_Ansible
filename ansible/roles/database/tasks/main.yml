@@ -6,7 +6,7 @@
       - name: app-network
     env:
       POSTGRES_DB: db
-      POSTGRES_USER: usr
-      POSTGRES_PASSWORD: pwd
+      POSTGRES_USER: "{{ postgres_user }}"
+      POSTGRES_PASSWORD: "{{ postgres_password }}"
   vars:
     ansible_python_interpreter: /opt/docker_venv/bin/python

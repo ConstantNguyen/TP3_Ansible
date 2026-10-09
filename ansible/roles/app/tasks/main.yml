@@ -7,7 +7,7 @@
       - name: app-network
     env:
       SPRING_DATASOURCE_URL: jdbc:postgresql://tp-db:5432/db
-      SPRING_DATASOURCE_USERNAME: usr
-      SPRING_DATASOURCE_PASSWORD: pwd
+      SPRING_DATASOURCE_USERNAME: "{{ postgres_user }}"
+      SPRING_DATASOURCE_PASSWORD: "{{ postgres_password }}"
   vars:
     ansible_python_interpreter: /opt/docker_venv/bin/python

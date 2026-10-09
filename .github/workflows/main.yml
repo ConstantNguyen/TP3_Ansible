@@ -13,12 +13,12 @@ jobs:
       - name: Install Ansible
         run: pip install ansible
 
-      - name: SSH key
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Write SSH key and vault password
         run: |
-          echo "$SSH_PRIVATE_KEY" > $HOME/deploy_key
-          chmod 600 $HOME/deploy_key
+          printf '%s\n' "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' > key
+          chmod 600 key
+          printf '%s' "${{ secrets.ANSIBLE_VAULT_PASSWORD }}" > vault_pass
+          chmod 600 vault_pass
 
       - name: Deploiement Ansible
         working-directory: ansible
